@@ -43,7 +43,7 @@
 //     }
 
 //     try {
-//       await axios.post("blog-backend-production-b03b.up.railway.app/posts", {
+//       await axios.post("${API_BASE_URL}/posts", {
 //         title,
 //         content,
 //         image,
@@ -147,6 +147,7 @@ import {
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../services/authService";
 
 const CreatePost = () => {
   const navigate = useNavigate();
@@ -202,7 +203,7 @@ const CreatePost = () => {
 
       const user = JSON.parse(localStorage.getItem("user"));
 
-      await axios.post("blog-backend-production-b03b.up.railway.app/posts", {
+      await axios.post(`${API_BASE_URL}/posts`, {
         title,
         content,
         image,

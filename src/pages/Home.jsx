@@ -6,6 +6,7 @@ import PostCard from "../components/PostCard";
 import HeroSection from "../components/HeroSection";
 import { useNavigate } from "react-router-dom";
 import PostSkeleton from "../components/PostLoading";
+import { API_BASE_URL } from "../services/authService";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -17,7 +18,8 @@ const Home = () => {
 
   const fetchPosts = async () => {
     try {
-      const res = await axios.get("blog-backend-production-b03b.up.railway.app/posts");
+      const res = await axios.get(`${API_BASE_URL}/posts`);
+      console.log(res.data);
       setPosts(res.data.reverse());
     } catch (err) {
       console.error("Failed to fetch posts", err);
@@ -31,7 +33,7 @@ const Home = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`blog-backend-production-b03b.up.railway.app/posts/${id}`);
+      await axios.delete(`${API_BASE_URL}/posts/${id}`);
       setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
     } catch (err) {
       alert("Failed to delete post.");

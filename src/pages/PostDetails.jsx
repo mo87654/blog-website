@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Box, Typography, Skeleton } from "@mui/material";
+import { API_BASE_URL } from "../services/authService";
 
 const PostDetails = () => {
   const { id } = useParams();
@@ -9,7 +10,7 @@ const PostDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`blog-backend-production-b03b.up.railway.app/posts/${id}`)
+    axios.get(`${API_BASE_URL}/posts/${id}`)
       .then((res) => setPost(res.data))
       .catch((err) => console.error("Error fetching post", err))
       .finally(() => setLoading(false));

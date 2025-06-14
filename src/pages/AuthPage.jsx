@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../services/authService";
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -61,7 +62,7 @@ const AuthPage = () => {
 
     try {
       if (isLogin) {
-        const res = await axios.post("blog-backend-production-b03b.up.railway.app/login", {
+        const res = await axios.post(`${API_BASE_URL}/login`, {
           email: form.email,
           password: form.password,
         });
@@ -71,7 +72,7 @@ const AuthPage = () => {
 
         // get the logged-in user info
         const userRes = await axios.get(
-          `blog-backend-production-b03b.up.railway.app/users?email=${form.email}`,
+          `${API_BASE_URL}/users?email=${form.email}`,
           {
             headers: {
               Authorization: `Bearer ${res.data.accessToken}`,
@@ -85,7 +86,7 @@ const AuthPage = () => {
         setAlert({ type: "success", message: "Logged in successfully!" });
         navigate("/");
       } else {
-        await axios.post("blog-backend-production-b03b.up.railway.app/register", {
+        await axios.post(`${API_BASE_URL}/register`, {
           email: form.email,
           password: form.password,
           name: form.name,

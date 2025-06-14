@@ -9,6 +9,7 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../services/authService";
 
 const EditPost = () => {
   const { state } = useLocation();
@@ -37,7 +38,7 @@ const EditPost = () => {
     };
 
     try {
-      await axios.put(`blog-backend-production-b03b.up.railway.app/posts/${state.id}`, updatedPost);
+      await axios.put(`${API_BASE_URL}/posts/${state.id}`, updatedPost);
       alert("Post updated successfully!");
       navigate("/");
     } catch (err) {
