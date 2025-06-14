@@ -61,7 +61,7 @@ const AuthPage = () => {
 
     try {
       if (isLogin) {
-        const res = await axios.post("http://localhost:3000/login", {
+        const res = await axios.post("blog-backend-production-b03b.up.railway.app/login", {
           email: form.email,
           password: form.password,
         });
@@ -71,7 +71,7 @@ const AuthPage = () => {
 
         // get the logged-in user info
         const userRes = await axios.get(
-          `http://localhost:3000/users?email=${form.email}`,
+          `blog-backend-production-b03b.up.railway.app/users?email=${form.email}`,
           {
             headers: {
               Authorization: `Bearer ${res.data.accessToken}`,
@@ -85,7 +85,7 @@ const AuthPage = () => {
         setAlert({ type: "success", message: "Logged in successfully!" });
         navigate("/");
       } else {
-        await axios.post("http://localhost:3000/register", {
+        await axios.post("blog-backend-production-b03b.up.railway.app/register", {
           email: form.email,
           password: form.password,
           name: form.name,

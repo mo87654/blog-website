@@ -37,7 +37,7 @@ const EditPost = () => {
     };
 
     try {
-      await axios.put(`http://localhost:3000/posts/${state.id}`, updatedPost);
+      await axios.put(`blog-backend-production-b03b.up.railway.app/posts/${state.id}`, updatedPost);
       alert("Post updated successfully!");
       navigate("/");
     } catch (err) {

@@ -9,7 +9,7 @@ const PostDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/posts/${id}`)
+    axios.get(`blog-backend-production-b03b.up.railway.app/posts/${id}`)
       .then((res) => setPost(res.data))
       .catch((err) => console.error("Error fetching post", err))
       .finally(() => setLoading(false));

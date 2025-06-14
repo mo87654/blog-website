@@ -43,7 +43,7 @@
 //     }
 
 //     try {
-//       await axios.post("http://localhost:3000/posts", {
+//       await axios.post("blog-backend-production-b03b.up.railway.app/posts", {
 //         title,
 //         content,
 //         image,
@@ -202,7 +202,7 @@ const CreatePost = () => {
 
       const user = JSON.parse(localStorage.getItem("user"));
 
-      await axios.post("http://localhost:3000/posts", {
+      await axios.post("blog-backend-production-b03b.up.railway.app/posts", {
         title,
         content,
         image,

@@ -17,7 +17,7 @@ const Home = () => {
 
   const fetchPosts = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/posts");
+      const res = await axios.get("blog-backend-production-b03b.up.railway.app/posts");
       setPosts(res.data.reverse());
     } catch (err) {
       console.error("Failed to fetch posts", err);
@@ -31,7 +31,7 @@ const Home = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/posts/${id}`);
+      await axios.delete(`blog-backend-production-b03b.up.railway.app/posts/${id}`);
       setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
     } catch (err) {
       alert("Failed to delete post.");
