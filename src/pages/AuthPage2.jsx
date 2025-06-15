@@ -181,15 +181,7 @@ const AuthPage = () => {
                   type="password"
                   fullWidth
                 />
-                <Button
-                  variant="contained"
-                  fullWidth
-                  onClick={handleSubmit}
-                  sx={{
-                    background:
-                      "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                  }}
-                >
+                <Button variant="contained" fullWidth onClick={handleSubmit}>
                   Log In
                 </Button>
               </Stack>
@@ -270,12 +262,7 @@ const AuthPage = () => {
                   type="password"
                   fullWidth
                 />
-                <Button
-                  variant="contained"
-                  fullWidth
-                  onClick={handleSubmit}
-                  sx={{background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',}}
-                >
+                <Button variant="contained" fullWidth onClick={handleSubmit}>
                   Sign Up
                 </Button>
               </Stack>

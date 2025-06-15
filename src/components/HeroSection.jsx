@@ -5,11 +5,13 @@ const HeroSection = () => {
   return (
     <Box 
       sx={{ 
+        width: "80%",
         textAlign: 'center', 
+        margin: 'auto',
         mb: 6,
         py: 4,
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        borderRadius: 4,
+        borderRadius: 15,
         color: 'white',
         position: 'relative',
         overflow: 'hidden',
