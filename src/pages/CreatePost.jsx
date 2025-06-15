@@ -162,31 +162,33 @@ const CreatePost = () => {
     type: "success",
   });
 
- const uploadToCloudinary = async (file) => {
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", "ml_default"); // change this
-  formData.append("cloud_name", "dzqdacc3g"); // change this
+  const uploadToImgbb = async (file) => {
+    const imgbbApiKey = "e83b1cbcaff9682818c5677c8e8985af";
 
-  try {
-    const res = await axios.post(
-      "https://api.cloudinary.com/v1_1/dzqdacc3g/image/upload", // change this
-      formData
-    );
+    const formData = new FormData();
+    formData.append("image", file); // This is the binary image file
 
-    return res.data.secure_url;
-  } catch (err) {
-    console.error("Upload to Cloudinary failed:", err);
-    throw new Error("Image upload failed.");
-  }
-};
+    try {
+      const res = await axios.post(
+        `https://api.imgbb.com/1/upload?key=${imgbbApiKey}`,
+        formData
+      );
 
-
-
-
+      // Return the image URL from the response
+      return res.data.data.url;
+    } catch (err) {
+      console.error("Upload to ImgBB failed:", err);
+      throw new Error("Image upload to ImgBB failed.");
+    }
+  };
 
   const handleSubmit = async () => {
-    if (!title || !content || (tab === 0 && !imageFile) || (tab === 1 && !imageUrl)) {
+    if (
+      !title ||
+      !content ||
+      (tab === 0 && !imageFile) ||
+      (tab === 1 && !imageUrl)
+    ) {
       return setAlert({
         open: true,
         message: "All fields are required.",
@@ -198,7 +200,7 @@ const CreatePost = () => {
 
     try {
       if (tab === 0 && imageFile) {
-        image = await uploadToCloudinary(imageFile); // 🔼 Upload to ImgBB and get the URL
+        image = await uploadToImgbb(imageFile); // 🔼 Upload to ImgBB and get the URL
       }
 
       const user = JSON.parse(localStorage.getItem("user"));

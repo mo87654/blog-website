@@ -54,23 +54,38 @@ const PostCard = ({ post, onEdit, onDelete, onClick }) => {
             : "No content available."}
         </Typography>
 
-        <Typography variant="caption" color="text.secondary" display="block" mt={2}>
-          By {post.author || "Unknown"} •{" "}
+        <Typography
+          variant="caption"
+          color="text.secondary"
+          display="block"
+          mt={2}
+        >
+          By{" "}
+          <Typography
+            component="span"
+            fontWeight={600}
+            fontSize="0.9rem"
+            color="text.primary"
+          >
+            {post.author || "Unknown"}
+          </Typography>{" "}
+          •{" "}
           {post.date
             ? new Date(post.date).toLocaleDateString()
             : "Unknown date"}
         </Typography>
       </CardContent>
 
-      {post.authorId == JSON.parse(localStorage.getItem("user")??0).id &&
-      <CardActions sx={{ justifyContent: "flex-end", px: 2 }}>
-        <IconButton onClick={handleEditClick} color="primary">
-          <Edit />
-        </IconButton>
-        <IconButton onClick={handleDeleteClick} color="error">
-          <Delete />
-        </IconButton>
-      </CardActions>}
+      {post.authorId == JSON.parse(localStorage.getItem("user") ?? 0).id && (
+        <CardActions sx={{ justifyContent: "flex-end", px: 2 }}>
+          <IconButton onClick={handleEditClick} color="primary">
+            <Edit />
+          </IconButton>
+          <IconButton onClick={handleDeleteClick} color="error">
+            <Delete />
+          </IconButton>
+        </CardActions>
+      )}
     </Card>
   );
 };

@@ -5,6 +5,7 @@ import CreatePost from "./pages/CreatePost";
 import EditPost from "./pages/EditPost";
 import PostDetails from "./pages/PostDetails";
 import Navbar from "./components/Navbar";
+import { GlobalStyles } from "@mui/material";
 
 function App() {
   const location = useLocation();
@@ -13,6 +14,17 @@ function App() {
   const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
   return (
     <>
+      <GlobalStyles
+        styles={{
+          "*": {
+            scrollbarWidth: "none", // Firefox
+            msOverflowStyle: "none", // IE
+          },
+          "*::-webkit-scrollbar": {
+            display: "none", // Chrome, Safari, Opera
+          },
+        }}
+      />
       {!shouldHideNavbar && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />

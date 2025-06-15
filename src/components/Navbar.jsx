@@ -66,7 +66,7 @@ const Navbar = () => {
   return (
     <AppBar 
       position="sticky" 
-      elevation={0}
+      // elevation={5}
       sx={{ 
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
         backdropFilter: 'blur(10px)',
@@ -86,7 +86,7 @@ const Navbar = () => {
           }}
           onClick={() => navigate('/')}
         >
-          BlogZone
+          BlogSpace
         </Typography>
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -122,7 +122,7 @@ const Navbar = () => {
               >
                 <MenuItem onClick={() => { navigate('/account'); handleClose(); }}>
                   <AccountCircle sx={{ mr: 1 }} />
-                  Account
+                  {user.email}
                 </MenuItem>
                 <MenuItem onClick={handleLogout}>
                   <ExitToApp sx={{ mr: 1 }} />

@@ -19,7 +19,6 @@ const Home = () => {
   const fetchPosts = async () => {
     try {
       const res = await axios.get(`${API_BASE_URL}/posts`);
-      console.log(res.data);
       setPosts(res.data.reverse());
     } catch (err) {
       console.error("Failed to fetch posts", err);
@@ -55,9 +54,6 @@ const Home = () => {
   return (
     <Box p={4}>
       <HeroSection />
-      <Typography variant="h4" mb={3} textAlign="center">
-        Recent Posts
-      </Typography>
 
       {/* Error Alert */}
       {error && (
