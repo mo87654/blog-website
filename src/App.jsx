@@ -6,6 +6,7 @@ import EditPost from "./pages/EditPost";
 import PostDetails from "./pages/PostDetails";
 import Navbar from "./components/Navbar";
 import { GlobalStyles } from "@mui/material";
+import AccountPage from "./pages/AccountPage";
 
 function App() {
   const location = useLocation();
@@ -32,6 +33,7 @@ function App() {
         <Route path="/create-post" element={<CreatePost />} />
         <Route path="/edit-post" element={<EditPost />} />
         <Route path="/posts/:id" element={<PostDetails />} />
+        <Route path="/account" element={<AccountPage/>} />
       </Routes>
     </>
   );

@@ -1,6 +1,17 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Box, Typography, Skeleton, Fab, Alert } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Fab,
+  Alert,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import PostCard from "../components/PostCard";
 import HeroSection from "../components/HeroSection";
@@ -12,6 +23,9 @@ const Home = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const [openDialog, setOpenDialog] = useState(false);
+  const [postToDelete, setPostToDelete] = useState(null);
 
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user") || "null");
@@ -30,12 +44,20 @@ const Home = () => {
     }
   };
 
-  const handleDelete = async (id) => {
+  const confirmDelete = (id) => {
+    setPostToDelete(id);
+    setOpenDialog(true);
+  };
+
+  const handleDeleteConfirmed = async () => {
     try {
-      await axios.delete(`${API_BASE_URL}/posts/${id}`);
-      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
+      await axios.delete(`${API_BASE_URL}/posts/${postToDelete}`);
+      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postToDelete));
     } catch (err) {
       alert("Failed to delete post.");
+    } finally {
+      setOpenDialog(false);
+      setPostToDelete(null);
     }
   };
 
@@ -55,27 +77,16 @@ const Home = () => {
     <Box p={4}>
       <HeroSection />
 
-      {/* Error Alert */}
       {error && (
         <Alert severity="error" sx={{ mb: 2 }}>
           {error}
         </Alert>
       )}
 
-      {/* Loading Skeletons */}
       {loading ? (
         <Box display="flex" flexDirection="column" alignItems="center" gap={4}>
           {Array.from({ length: 3 }).map((_, i) => (
             <PostSkeleton key={i} />
-            // <Skeleton
-            //   key={i}
-            //   variant="rectangular"
-            //   height={400}
-            //   sx={{
-            //     width: "80%",
-            //     borderRadius: 2,
-            //   }}
-            // />
           ))}
         </Box>
       ) : posts.length === 0 ? (
@@ -88,7 +99,7 @@ const Home = () => {
             <PostCard
               key={post.id}
               post={post}
-              onDelete={handleDelete}
+              onDelete={() => confirmDelete(post.id)}
               onEdit={handleEdit}
               onClick={handleCardClick}
             />
@@ -96,9 +107,14 @@ const Home = () => {
         </Box>
       )}
 
-      {/* Floating Add Button */}
       <Fab
-        sx={{ position: "fixed", bottom: 24, right: 24,color: 'white', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',}}
+        sx={{
+          position: "fixed",
+          bottom: 24,
+          right: 24,
+          color: "white",
+          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        }}
         onClick={() => {
           if (!user) {
             alert("Please login first.");
@@ -110,6 +126,25 @@ const Home = () => {
       >
         <AddIcon />
       </Fab>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        open={openDialog}
+        onClose={() => setOpenDialog(false)}
+      >
+        <DialogTitle>Delete Confirmation</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this post? This action cannot be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
+          <Button onClick={handleDeleteConfirmed} color="error" variant="contained">
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
