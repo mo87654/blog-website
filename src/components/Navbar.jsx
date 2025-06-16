@@ -1,32 +1,3 @@
-// import { AppBar, Toolbar, Typography, Button } from "@mui/material";
-// import { useNavigate } from "react-router-dom";
-
-// const Navbar = () => {
-//   const navigate = useNavigate();
-//   const user = JSON.parse(localStorage.getItem("user")); // or useContext(AuthContext)
-
-//   return (
-//     <AppBar position="static">
-//       <Toolbar>
-//         <Typography variant="h6" sx={{ flexGrow: 1 }} onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
-//           BlogZone
-//         </Typography>
-//         {!user ? (
-//           <Button color="inherit" onClick={() => navigate("/auth")}>Login</Button>
-//         ) : (
-//           <Button color="inherit" onClick={() => {
-//             localStorage.removeItem("user");
-//             navigate("/login");
-//           }}>Logout</Button>
-//         )}
-//       </Toolbar>
-//     </AppBar>
-//   );
-// };
-
-// export default Navbar;
-
-// new nav bar
 
 import React, { useState } from 'react';
 import {
