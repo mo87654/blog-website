@@ -8,6 +8,7 @@ import {
   Alert,
 } from "@mui/material";
 import axios from "axios";
+import { API_BASE_URL } from "../services/authService";
 
 const AccountPage = () => {
   const [user, setUser] = useState(null);
@@ -16,47 +17,41 @@ const AccountPage = () => {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
-  const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await axios.get(
-          `https://your-api-url.com/600/users/${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setUser(res.data);
-        setName(res.data.name);
-      } catch (err) {
-        setError("Failed to load user info");
-      }
-    };
-    fetchUser();
-  }, [userId, token]);
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) {
+      setUser(storedUser);
+      setName(storedUser.name);
+    }
+  }, []);
 
   const handleUpdate = async () => {
     setSuccess("");
     setError("");
+
     try {
-      await axios.patch(
-        `https://your-api-url.com/600/users/${userId}`,
-        {
-          ...(name && { name }),
-          ...(password && { password }),
-        },
+      const updatedFields = {
+        ...(name && { name }),
+        ...(password && { password }),
+      };
+
+      const res = await axios.patch(
+        `${API_BASE_URL}/users/${user.id}`,
+        updatedFields,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
+
+      const updatedUser = { ...user, ...updatedFields };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      setUser(updatedUser); // update state
       setSuccess("Profile updated successfully");
-      setPassword(""); // clear password field after update
+      setPassword("");
     } catch (err) {
       setError("Failed to update profile");
     }

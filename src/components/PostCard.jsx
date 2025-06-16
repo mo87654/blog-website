@@ -17,7 +17,7 @@ const PostCard = ({ post, onEdit, onDelete, onClick }) => {
 
   const handleDeleteClick = (e) => {
     e.stopPropagation();
-    onDelete(post.id);
+    onDelete(post);
   };
 
   return (
