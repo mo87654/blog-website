@@ -69,12 +69,7 @@ const AccountPage = () => {
       {error && <Alert severity="error">{error}</Alert>}
 
       <Box mt={3} display="flex" flexDirection="column" gap={2}>
-        <TextField
-          label="Email"
-          value={user.email}
-          disabled
-          fullWidth
-        />
+        <TextField label="Email" value={user.email} disabled fullWidth />
 
         <TextField
           label="Name"
@@ -91,7 +86,13 @@ const AccountPage = () => {
           fullWidth
         />
 
-        <Button variant="contained" onClick={handleUpdate}>
+        <Button
+          variant="contained"
+          sx={{
+            background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          }}
+          onClick={handleUpdate}
+        >
           Save Changes
         </Button>
       </Box>

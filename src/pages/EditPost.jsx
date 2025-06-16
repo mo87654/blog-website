@@ -5,6 +5,7 @@ import {
   Tabs,
   TextField,
   Typography,
+  Alert,
 } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -19,10 +20,15 @@ const EditPost = () => {
 
   const [title, setTitle] = useState(state?.title || "");
   const [content, setContent] = useState(state?.content || "");
-  const [imageType, setImageType] = useState(state?.image?.startsWith("http") ? "url" : "upload");
+  const [imageType, setImageType] = useState(
+    state?.image?.startsWith("http") ? "url" : "upload"
+  );
   const [imageURL, setImageURL] = useState(state?.image || "");
   const [uploadFile, setUploadFile] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const uploadToImgBB = async (file) => {
     const formData = new FormData();
@@ -36,8 +42,16 @@ const EditPost = () => {
   };
 
   const handleUpdate = async () => {
-    if (!title || !content || (imageType === "url" && !imageURL) || (imageType === "upload" && !uploadFile)) {
-      alert("Please fill in all fields.");
+    setSuccessMessage("");
+    setErrorMessage("");
+
+    if (
+      !title ||
+      !content ||
+      (imageType === "url" && !imageURL) ||
+      (imageType === "upload" && !uploadFile)
+    ) {
+      setErrorMessage("Please fill in all fields.");
       return;
     }
 
@@ -56,10 +70,10 @@ const EditPost = () => {
       };
 
       await axios.patch(`${API_BASE_URL}/posts/${state.id}`, updatedPost);
-      alert("Post updated successfully!");
-      navigate("/");
+      setSuccessMessage("Post updated successfully!");
+      setTimeout(() => navigate("/"), 1500); // redirect after delay
     } catch (err) {
-      alert("Failed to update post.");
+      setErrorMessage("Failed to update post.");
     } finally {
       setLoading(false);
     }
@@ -67,7 +81,20 @@ const EditPost = () => {
 
   return (
     <Box p={4}>
-      <Typography variant="h5" mb={3}>Edit Post</Typography>
+      <Typography variant="h5" mb={3}>
+        Edit Post
+      </Typography>
+
+      {successMessage && (
+        <Alert severity="success" sx={{ mb: 2 }}>
+          {successMessage}
+        </Alert>
+      )}
+      {errorMessage && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {errorMessage}
+        </Alert>
+      )}
 
       <TextField
         fullWidth
@@ -86,14 +113,18 @@ const EditPost = () => {
         sx={{ mb: 2 }}
       />
 
-      <Tabs value={imageType} onChange={(_, val) => setImageType(val)} sx={{ mb: 2 }}>
+      <Tabs
+        value={imageType}
+        onChange={(_, val) => setImageType(val)}
+        sx={{ mb: 2 }}
+      >
         <Tab label="Upload Image" value="upload" />
         <Tab label="Image URL" value="url" />
       </Tabs>
 
       {imageType === "upload" ? (
         <input
-          style={{ display: 'block', padding: 17 }}
+          style={{ display: "block", padding: 17 }}
           type="file"
           accept="image/*"
           onChange={(e) => setUploadFile(e.target.files[0])}
@@ -112,7 +143,8 @@ const EditPost = () => {
         disabled={loading}
         sx={{
           mt: 3,
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          background:
+            "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
         }}
         onClick={handleUpdate}
       >
